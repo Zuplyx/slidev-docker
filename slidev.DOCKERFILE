@@ -1,0 +1,3 @@
+FROM node:20.16-slim
+
+RUN npm i -g @slidev/cli @slidev/theme-default playwright-chromium

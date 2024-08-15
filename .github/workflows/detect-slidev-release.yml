@@ -1,0 +1,35 @@
+name: Get latest release version
+on:
+  schedule:
+    - cron: '0 10 * * *'
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch release version
+        id: fetch_version
+        run: |
+          slidev_version=$(curl -sL https://api.github.com/repos/slidevjs/slidev/releases/latest | jq -r ".tag_name")
+          echo "slidev_version=${slidev_version}" >> $GITHUB_ENV
+          
+      - name: Check for existing release
+        id: check_release
+        run: |
+          if gh release view "${{ env.slidev_version }}" > /dev/null 2>&1; then
+            echo "release_exists=true" >> $GITHUB_ENV
+          else
+            echo "release_exists=false" >> $GITHUB_ENV
+          fi
+          
+      - name: Create release
+        if: env.release_exists == 'false'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.slidev_version }}
+          release_name: Release ${{ env.slidev_version }}
+          body: |
+            This release corresponds to the upstream [slidev release ${{ env.slidev_version }}](https://github.com/slidevjs/slidev/releases/tag/${{ env.slidev_version }}).
+          draft: false
+          prerelease: false
