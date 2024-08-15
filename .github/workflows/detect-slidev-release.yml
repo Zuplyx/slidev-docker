@@ -26,12 +26,12 @@ jobs:
           
       - name: Create release
         if: env.release_exists == 'false'
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.slidev_version }}
-          release_name: Release ${{ env.slidev_version }}
+          name: Release ${{ env.slidev_version }}
           body: |
             This release corresponds to the upstream [slidev release ${{ env.slidev_version }}](https://github.com/slidevjs/slidev/releases/tag/${{ env.slidev_version }}).
           draft: false
