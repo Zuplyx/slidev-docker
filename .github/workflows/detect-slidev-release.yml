@@ -6,6 +6,8 @@ on:
 jobs:
   get-version:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Ensure we have write permissions to create the release
     steps:
       - name: Fetch release version
         id: fetch_version
