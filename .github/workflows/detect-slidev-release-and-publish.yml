@@ -77,6 +77,7 @@ jobs:
             ghcr.io/${{ github.repository }}
           tags: |
             ${{ needs.get-version.outputs.slidev_version }}
+            latest
           labels: |
             org.opencontainers.image.version=${{ needs.get-version.outputs.slidev_version }}
             org.opencontainers.image.source=${{ github.repository }}
