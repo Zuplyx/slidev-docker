@@ -1,4 +1,3 @@
 FROM node:20.16-slim
 
-RUN npm i -g @slidev/cli @slidev/theme-default @slidev/theme-seriph playwright-chromium
-RUN npx playwright install-deps
+RUN npm i -g @slidev/cli @slidev/theme-default @slidev/theme-seriph playwright-chromium && npx playwright install-deps
